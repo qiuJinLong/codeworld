@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>sQuery - 1</title>
+<style>
+	#div1{ width:50px; height:50px; background:#ccc;}
+</style>
+<script type="text/javascript" src="sQuery.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#div1").css("background", "red");
+		console.log($("input[type=text]"));
+		console.log($("ul"))
+		console.log($(".green"));
+		console.log($("li:last"));
+		console.log($("li.lit"));
+	});
+</script>
+</head>
+<body>
+	<div id="div1">选择器测试</div>
+	<ul>
+		<li>1-1</li>
+		<li class="green">1-2</li>
+		<li class="lit">1-3</li>
+		<li>1-4</li>
+		<li>1-5</li>
+		<li>1-6</li>
+		<li>1-7</li>
+	</ul>
+	<input type="text" value="1231" />
+<script type="text/javascript">
+	
+	
+</script>	
+</body>
+</html>
