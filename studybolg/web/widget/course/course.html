@@ -1,0 +1,26 @@
+<div id="app">
+    <div class="widget-course w128">
+        <div class="title">
+            <p class="course_outline">{{msg}}</p>
+            <div class="spliter"></div>
+        </div>
+        <div class="list">
+             <div class="item" v-for="(item,ind) in coursedata">
+                <div class="category   category gray_center" :class="[item.imgsrc,{'gray':item.videourl==''}]">
+                    <div class="course_box">
+                        <div class="course_info">
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-default" :href="item.videourl">预习课程</a>
+                                 <a class="btn btn-default" :href="item.classourl">线下课堂</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+        
+
+
