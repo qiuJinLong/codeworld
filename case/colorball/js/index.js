@@ -6,6 +6,7 @@ function rnd(min, max) {
 	return parseInt((Math.random()*99999)%(max-min+1))+min;
 }
 
+
 window.onload = function() {
 	document.oncontextmenu=function () {
 		return false;
@@ -27,8 +28,10 @@ window.onload = function() {
 
 	var lastIType=-1;
 
+	var SPEED_CNG_RATE=4;
 	var SAMP_RATE = 3;	 //圆圈生成的速度，每计算三次才真正的生成一次圆圈
 	var SPEED_RATE = 20;  //圆圈每次减小的值
+	var AUTO_SAMP_RATE= 1;
 	var FPS_RATE = 20;
 	var SIZE = 100;
 	var CONTINUE_LEN = 5; //多少个圆圈为一组
@@ -63,13 +66,65 @@ window.onload = function() {
 				x+=xSpeed;
 				y+=ySpeed;
 
-				if(x<=SIZE/2) xSpeed=rnd(0, SPEED_MAX);
+				if(x<=SIZE/2) {
+					xSpeed=rnd(0, SPEED_MAX);
+					console.log(xSpeed);
+				}
 				if(x>=document.documentElement.clientWidth-SIZE/2) xSpeed = -rnd(0, SPEED_MAX);
 
-			}, 30)
+				if(y<=SIZE/2)ySpeed=rnd(0,SPEED_MAX);
+				if(y>=document.documentElement.clientHeight-SIZE/2)ySpeed=-rnd(0,SPEED_MAX);
 
+				if(xSpeed<-SPEED_MAX)
+				{
+					xSpeed+=rnd(0,SPEED_CNG_RATE);
+				}
+				else if(xSpeed>SPEED_MAX)
+				{
+					xSpeed+=rnd(-SPEED_CNG_RATE,0);
+				}
+				else
+				{
+					xSpeed+=rnd(-SPEED_CNG_RATE,SPEED_CNG_RATE);
+				}
+				
+				if(ySpeed<-SPEED_MAX)
+				{
+					ySpeed+=rnd(0,SPEED_CNG_RATE);
+				}
+				else if(ySpeed>SPEED_MAX)
+				{
+					ySpeed+=rnd(-SPEED_CNG_RATE,0);
+				}
+				else
+				{
+					ySpeed+=rnd(-SPEED_CNG_RATE,SPEED_CNG_RATE);
+				}
+
+			}, 30);
+
+			stop();
+			this.value = "手动移动";
+			bManual = false;
+		} else {
+			restart();
+			clearInterval(iAutoPlayTimer);
+			this.value='自动移动';
+			bManual=true;
 		}
 	};
+
+	setTimeout(function (){
+		if(!bCanUse)
+		{
+			oAutoPlay.onclick();
+		}
+	}, 3000);
+	
+	function stop()
+	{
+		document.onmousedown=null;
+	}
 
 	function restart() {
 		document.onmousedown = fnHandlerMouseMove;
@@ -129,6 +184,7 @@ window.onload = function() {
 		setInterval(function() {
 			var iNow = getNow();
 			var aNewSharps = [];
+
 			if(iNow - lastMove > 30) {
 				for(var i = 0; i<aSharps.length; i++) {
 					aSharps[i].obj.width = Math.max(aSharps[i].obj.offsetWidth - aSharps[i].speedX, 0);
